@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}OurNews | {{ town.name }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <p class="kicker">{{ town.region.state.name }} -> {{ town.region.name }}</p>
+  <h1>{{ town.name }}</h1>
+  <p class="lead">{{ town.description }}</p>
+  {% if current_user.is_authenticated %}
+  <a class="btn" href="{{ url_for('submit_post') }}">Submit Local Story</a>
+  {% else %}
+  <a class="btn" href="{{ url_for('login') }}">Login To Contribute</a>
+  {% endif %}
+</section>
+
+{% if weather_coords %}
+<section class="weather-widget" data-weather-widget data-lat="{{ weather_coords.lat }}" data-lon="{{ weather_coords.lon }}" data-town="{{ town.name }}">
+  <div>
+    <p class="stamp">Current conditions</p>
+    <h2 class="weather-temp">--</h2>
+  </div>
+  <div>
+    <p class="weather-summary">Loading local weather...</p>
+    <p class="stamp weather-updated">Updated just now</p>
+  </div>
+</section>
+{% endif %}
+
+<section class="detail-pills">
+  <p><strong>{{ posts|length }}</strong> stories</p>
+  <p><strong>{{ events|length }}</strong> upcoming events</p>
+  <p><strong>{{ organizations|length }}</strong> local profiles</p>
+</section>
+
+<section class="section-head">
+  <h2>Town News</h2>
+</section>
+<section class="list">
+  {% for post in posts %}
+  <article class="list-item">
+    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.category }}</p>
+    <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
+    <p>{{ post.summary }}</p>
+  </article>
+  {% else %}
+  <article class="list-item">
+    <p>No published stories yet. Be the first to submit one.</p>
+  </article>
+  {% endfor %}
+</section>
+
+<section class="section-head">
+  <h2>Local Event Calendar</h2>
+</section>
+<section class="list">
+  {% for event in events %}
+  <article class="list-item">
+    <p class="stamp">{{ event.starts_on.strftime('%b %d, %Y %I:%M %p') }}</p>
+    <h3>{{ event.title }}</h3>
+    <p>{{ event.details }}</p>
+  </article>
+  {% else %}
+  <article class="list-item">
+    <p>No upcoming events listed yet.</p>
+  </article>
+  {% endfor %}
+</section>
+
+<section class="section-head">
+  <h2>Business And Community Profiles</h2>
+</section>
+<section class="card-grid">
+  {% for org in organizations %}
+  <article class="card">
+    <p class="stamp">{{ org.kind }}</p>
+    <h3>{{ org.name }}</h3>
+    <p>{{ org.description }}</p>
+    {% if org.website %}<p><a href="{{ org.website }}" target="_blank" rel="noopener">Visit Website</a></p>{% endif %}
+  </article>
+  {% else %}
+  <article class="card">
+    <p>No local profiles yet.</p>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

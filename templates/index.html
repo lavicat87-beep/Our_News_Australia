@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}OurNews | Home{% endblock %}
+
+{% block content %}
+<section class="hero hero-home">
+  <p class="kicker">Digital Town Square</p>
+  <h1>Our News Australia- Community News for Every Town</h1>
+  <p class="lead">Explore local updates by State, Region, and Town to find stories that matter where you live.</p>
+  <a class="btn" href="{{ url_for('australia') }}">Browse By Location</a>
+</section>
+
+<section class="paper">
+  <h2>Project Overview</h2>
+  <p>OurNews Australia is a community-driven local news platform designed to become a trusted alternative to social media groups for sharing local news, events, announcements, and community information. Unlike traditional social media platforms where important local information is often buried in personal posts, advertising, and unrelated content, OurNews focuses exclusively on local communities and local stories.</p>
+  <p>The platform will be organised geographically, allowing users to navigate from State to Region to Town. For example:</p>
+  <p>Australia -> New South Wales -> Blue Mountains -> Katoomba.</p>
+  <p>Each town will have its own dedicated news page where residents can post local news, community events, lost pets, council updates, school activities, sports results, business announcements, historical stories, photographs, and other information relevant to their area.</p>
+</section>
+
+<section class="paper">
+  <h2>Vision</h2>
+  <p>The long-term vision is to create a national network of locally focused community news pages, preserving local stories and strengthening community connections.</p>
+  <p>OurNews aims to provide a digital town square where residents can discover what is happening in their area without the distractions, algorithms, and commercial priorities of major social media platforms.</p>
+  <p>The platform seeks to support local journalism, encourage community participation, and create a permanent, searchable record of community life across Australia.</p>
+
+  <h3>Mission Statement</h3>
+  <p>To connect Australian communities by providing a dedicated platform where local people can share local news, celebrate local achievements, and strengthen local connections.</p>
+
+  <h3>Potential Revenue Sources</h3>
+  <ul>
+    <li>Local business advertising.</li>
+    <li>Featured community listings.</li>
+    <li>Sponsored local events.</li>
+    <li>Council and community organisation partnerships.</li>
+    <li>Premium business profiles.</li>
+    <li>Donations and memberships.</li>
+  </ul>
+</section>
+
+{% if featured_town and featured_weather %}
+<section class="weather-widget" data-weather-widget data-lat="{{ featured_weather.lat }}" data-lon="{{ featured_weather.lon }}" data-town="{{ featured_town.name }}">
+  <div>
+    <p class="stamp">Now in {{ featured_town.name }}</p>
+    <h2 class="weather-temp">--</h2>
+  </div>
+  <div>
+    <p class="weather-summary">Loading local weather...</p>
+    <p class="stamp weather-updated">Updated just now</p>
+  </div>
+</section>
+{% endif %}
+
+<section class="micro-strip">
+  <p><strong>Focus:</strong> Community reports, schools, sport, council and events.</p>
+  <p><strong>Signal:</strong> No algorithmic feed. Just local information.</p>
+</section>
+
+<section class="section-head">
+  <h2>Featured Stories</h2>
+  <a href="{{ url_for('news') }}">View all</a>
+</section>
+
+<section class="card-grid">
+  {% for post in posts %}
+  <article class="card">
+    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }}</p>
+    <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
+    <p>{{ post.summary }}</p>
+  </article>
+  {% endfor %}
+</section>
+
+<section class="section-head">
+  <h2>Active Town Pages</h2>
+  <a href="{{ url_for('expansion_apply') }}">Request your town</a>
+</section>
+
+<section class="card-grid">
+  {% for town in towns %}
+  <article class="card">
+    <p class="stamp">{{ town.region.state.name }} -> {{ town.region.name }}</p>
+    <h3><a href="{{ url_for('town_page', slug=town.slug) }}">{{ town.name }}</a></h3>
+    <p>{{ town.description }}</p>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

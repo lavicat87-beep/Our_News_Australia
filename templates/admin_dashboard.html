@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}OurNews | Admin Dashboard{% endblock %}
+
+{% block content %}
+<section class="section-head">
+  <h1>Moderation Queue</h1>
+</section>
+
+<section class="list">
+  {% for post in pending_posts %}
+  <article class="list-item">
+    <p class="stamp">{{ post.town.name }} | {{ post.category }} | {{ post.created_at.strftime('%b %d, %Y') }}</p>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.summary }}</p>
+    <form method="post" class="inline-form">
+      <input type="hidden" name="post_id" value="{{ post.id }}">
+      <button class="btn" type="submit" name="action" value="publish">Approve</button>
+      <button class="btn btn-muted" type="submit" name="action" value="reject">Reject</button>
+    </form>
+  </article>
+  {% else %}
+  <article class="list-item"><p>No pending stories.</p></article>
+  {% endfor %}
+</section>
+
+<section class="section-head">
+  <h2>Town Expansion Requests</h2>
+</section>
+<section class="list">
+  {% for application in pending_applications %}
+  <article class="list-item">
+    <p class="stamp">{{ application.created_at.strftime('%b %d, %Y') }} | {{ application.applicant_name }}</p>
+    <h3>{{ application.town_name }}, {{ application.region_name }}, {{ application.state_name }}</h3>
+    <p>{{ application.notes }}</p>
+    <form method="post" class="inline-form">
+      <input type="hidden" name="application_id" value="{{ application.id }}">
+      <button class="btn" type="submit" name="action" value="approve-town">Approve</button>
+      <button class="btn btn-muted" type="submit" name="action" value="decline-town">Decline</button>
+    </form>
+  </article>
+  {% else %}
+  <article class="list-item"><p>No pending town applications.</p></article>
+  {% endfor %}
+</section>
+
+<section class="section-head">
+  <h2>Recent Posts</h2>
+</section>
+<section class="list">
+  {% for post in posts %}
+  <article class="list-item">
+    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }} | {{ post.status }}</p>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.summary }}</p>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}OurNews | Profile{% endblock %}
+
+{% block content %}
+<section class="paper">
+  <h1>{{ profile_user.username }}</h1>
+  <p>{{ profile_user.bio }}</p>
+  {% if profile_user.town_id %}
+  <p class="stamp">Contributor town: {{ profile_user.town.name }}</p>
+  {% endif %}
+</section>
+
+<section class="section-head">
+  <h2>Published Stories</h2>
+</section>
+<section class="list">
+  {% for post in posts %}
+  <article class="list-item">
+    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }}</p>
+    <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
+  </article>
+  {% else %}
+  <article class="list-item"><p>No published stories yet.</p></article>
+  {% endfor %}
+</section>
+{% endblock %}

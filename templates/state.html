@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}OurNews | {{ state.name }}{% endblock %}
+
+{% block content %}
+<section class="section-head">
+  <h1>{{ state.name }}</h1>
+  <p>Browse regions and their town pages.</p>
+</section>
+
+<section class="card-grid">
+  {% for region in state.regions %}
+  <article class="card">
+    <h2><a href="{{ url_for('region_page', slug=region.slug) }}">{{ region.name }}</a></h2>
+    <p>{{ region.towns|length }} towns</p>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

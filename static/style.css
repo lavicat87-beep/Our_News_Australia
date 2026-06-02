@@ -1,0 +1,404 @@
+:root {
+  --paper: #f7f3e8;
+  --ink: #1e2a39;
+  --muted: #5f6b73;
+  --accent: #b33a3a;
+  --line: #d7cfbf;
+  --card: #fffcf6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Libre Baskerville", Georgia, serif;
+  background: radial-gradient(circle at 15% 10%, #fff8e7 0%, #f7f3e8 45%, #ebe2d1 100%);
+}
+
+a {
+  color: inherit;
+}
+
+.container {
+  width: min(1080px, 92%);
+  margin: 0 auto;
+}
+
+.topline {
+  background: #202a36;
+  color: #f3efe4;
+  font-size: 0.83rem;
+}
+
+.topline-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0;
+}
+
+.topline p {
+  margin: 0;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 251, 242, 0.8);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+}
+
+.masthead-row {
+  display: flex;
+  justify-content: center;
+  padding: 0.9rem 0 0.5rem;
+}
+
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  gap: 1rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.search-row {
+  padding-bottom: 0.9rem;
+}
+
+.search-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
+}
+
+.brand {
+  font-size: clamp(1rem, 2.4vw, 1.45rem);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.primary-nav {
+  gap: 1.1rem;
+}
+
+.utility-nav {
+  gap: 0.9rem;
+}
+
+nav a {
+  text-decoration: none;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.primary-nav a {
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.utility-nav a {
+  font-size: 0.84rem;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+.page {
+  padding: 2rem 0 3rem;
+}
+
+.hero {
+  background: linear-gradient(130deg, #13202c, #23374a 45%, #405066 100%);
+  color: #fdfaf2;
+  border-radius: 18px;
+  padding: clamp(1.2rem, 5vw, 3rem);
+  box-shadow: 0 16px 40px rgba(31, 36, 44, 0.2);
+}
+
+.hero-home {
+  background-image:
+    linear-gradient(rgba(15, 24, 33, 0.58), rgba(15, 24, 33, 0.58)),
+    url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Three_Sisters_from_echo_point.jpg/1920px-Three_Sisters_from_echo_point.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.weather-widget {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  background: linear-gradient(135deg, #fff8ea, #f3ead7);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+}
+
+.weather-temp {
+  margin: 0;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+.weather-summary {
+  margin: 0;
+}
+
+.micro-strip,
+.detail-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.micro-strip p,
+.detail-pills p {
+  margin: 0;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  font-size: 0.88rem;
+}
+
+.kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #f0d59a;
+  font-size: 0.75rem;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Merriweather", Georgia, serif;
+  line-height: 1.25;
+}
+
+h1 {
+  margin: 0.35rem 0 0.8rem;
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+}
+
+.lead {
+  color: #dee8f2;
+  max-width: 60ch;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 0.8rem;
+  border: 0;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.2rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.btn:hover {
+  filter: brightness(1.08);
+}
+
+.section-head {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.section-head a {
+  color: var(--accent);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.card,
+.paper,
+.list-item {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.card h3,
+.list-item h2,
+.list-item h3 {
+  margin-top: 0.2rem;
+}
+
+.stamp {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.paper {
+  padding: clamp(1rem, 3vw, 1.6rem);
+}
+
+.narrow {
+  max-width: 760px;
+}
+
+.stack-form {
+  display: grid;
+  gap: 0.6rem;
+}
+
+label {
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #c5baa8;
+  border-radius: 10px;
+  padding: 0.68rem 0.75rem;
+  font: inherit;
+  background: #fffefc;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.6rem;
+  align-items: end;
+}
+
+.inline-form {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+}
+
+.btn-muted {
+  background: #6b7280;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.flash-wrap {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.flash {
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid;
+}
+
+.flash.success {
+  background: #effaf1;
+  border-color: #9ad2a4;
+}
+
+.flash.error {
+  background: #fff0f0;
+  border-color: #e7a4a4;
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.site-footer p {
+  margin: 0;
+  padding: 1.2rem 0;
+  font-size: 0.9rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 0;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: var(--muted);
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 680px) {
+  .topline-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .masthead-row {
+    justify-content: flex-start;
+  }
+
+  .brand {
+    text-align: left;
+  }
+
+  nav {
+    gap: 0.75rem;
+  }
+
+  .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-form {
+    grid-template-columns: 1fr;
+  }
+
+  .weather-widget {
+    grid-template-columns: 1fr;
+  }
+}

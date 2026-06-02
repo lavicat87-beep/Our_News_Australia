@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}OurNews | Contact{% endblock %}
+
+{% block content %}
+<section class="paper narrow">
+  <h1>Contact the Editorial Team</h1>
+  <form method="post" class="stack-form">
+    <label for="name">Name</label>
+    <input id="name" name="name" type="text" required>
+
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" required>
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <button class="btn" type="submit">Send Message</button>
+  </form>
+</section>
+{% endblock %}

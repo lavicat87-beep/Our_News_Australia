@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}OurNews | Archive{% endblock %}
+
+{% block content %}
+<section class="section-head">
+  <h1>Searchable Local Archive</h1>
+</section>
+
+<section class="paper">
+  <form method="get" class="filter-grid">
+    <label for="q">Search</label>
+    <input id="q" name="q" value="{{ query_text }}" placeholder="Keywords">
+
+    <label for="town">Town</label>
+    <select id="town" name="town">
+      <option value="">All towns</option>
+      {% for town in towns %}
+      <option value="{{ town.slug }}" {% if selected_town and selected_town.slug == town.slug %}selected{% endif %}>{{ town.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="category">Category</label>
+    <select id="category" name="category">
+      <option value="">All categories</option>
+      {% for category in post_categories %}
+      <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>
+      {% endfor %}
+    </select>
+
+    <button class="btn" type="submit">Filter Archive</button>
+  </form>
+</section>
+
+<section class="list">
+  {% for post in posts %}
+  <article class="list-item">
+    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }} | {{ post.category }}</p>
+    <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
+    <p>{{ post.summary }}</p>
+  </article>
+  {% else %}
+  <article class="list-item"><p>No archive matches found.</p></article>
+  {% endfor %}
+</section>
+{% endblock %}

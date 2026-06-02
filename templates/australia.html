@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}OurNews | Australia{% endblock %}
+
+{% block content %}
+<section class="section-head">
+  <h1>Australia</h1>
+  <p>Choose a State to explore local regions and towns.</p>
+</section>
+
+<section class="card-grid">
+  {% for state in states %}
+  <article class="card">
+    <h2><a href="{{ url_for('state_page', slug=state.slug) }}">{{ state.name }}</a></h2>
+    <p>{{ state.regions|length }} regions</p>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

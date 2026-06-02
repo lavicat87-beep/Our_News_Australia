@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}OurNews | {{ post.title }}{% endblock %}
+
+{% block content %}
+<article class="paper">
+  <p class="stamp">
+    {{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }} | {{ post.category }}
+    {% if post.author %}| by {{ post.author.username }}{% endif %}
+  </p>
+  <h1>{{ post.title }}</h1>
+  <p class="lead">{{ post.summary }}</p>
+
+  {% if post.image_url %}
+    {% if post.image_url.startswith('http') %}
+    <p><a href="{{ post.image_url }}" target="_blank" rel="noopener">View photo</a></p>
+    {% else %}
+    <p><a href="{{ url_for('static', filename=post.image_url) }}" target="_blank" rel="noopener">View photo</a></p>
+    {% endif %}
+  {% endif %}
+
+  {% if post.video_url %}
+    {% if post.video_url.startswith('http') %}
+    <p><a href="{{ post.video_url }}" target="_blank" rel="noopener">View video</a></p>
+    {% else %}
+    <p><a href="{{ url_for('static', filename=post.video_url) }}" target="_blank" rel="noopener">View video</a></p>
+    {% endif %}
+  {% endif %}
+
+  <p>{{ post.content }}</p>
+</article>
+{% endblock %}

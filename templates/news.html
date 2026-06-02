@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}OurNews | News{% endblock %}
+
+{% block content %}
+<section class="section-head">
+  <h1>Latest News</h1>
+</section>
+
+<section class="list">
+  {% for post in posts %}
+  <article class="list-item">
+    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }} | {{ post.category }}</p>
+    <h2><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h2>
+    <p>{{ post.summary }}</p>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

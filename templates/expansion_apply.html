@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}OurNews | Add Your Town{% endblock %}
+
+{% block content %}
+<section class="paper narrow">
+  <h1>Apply To Add A Town Page</h1>
+  <p>Residents can request a dedicated local page for their town or suburb. Once approved, your community gains local news and moderator support.</p>
+  <form method="post" class="stack-form">
+    <label for="applicant_name">Your Name</label>
+    <input id="applicant_name" name="applicant_name" type="text" required>
+
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" required>
+
+    <label for="state_name">State</label>
+    <input id="state_name" name="state_name" type="text" placeholder="New South Wales" required>
+
+    <label for="region_name">Region</label>
+    <input id="region_name" name="region_name" type="text" placeholder="Blue Mountains" required>
+
+    <label for="town_name">Town or Suburb</label>
+    <input id="town_name" name="town_name" type="text" placeholder="Katoomba" required>
+
+    <label for="notes">Why your community needs this page</label>
+    <textarea id="notes" name="notes" rows="5" required></textarea>
+
+    <button class="btn" type="submit">Submit Application</button>
+  </form>
+</section>
+{% endblock %}
