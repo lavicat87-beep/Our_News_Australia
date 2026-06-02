@@ -265,25 +265,29 @@ def seed_platform_if_empty() -> None:
     db.session.commit()
 
 
-@app.cli.command("init-db")
-def init_db_command():
-    db.create_all()
-
+def ensure_admin_user() -> None:
     admin_username = os.getenv("ADMIN_USERNAME", "admin")
     admin_password = os.getenv("ADMIN_PASSWORD", "admin123")
 
     admin = User.query.filter_by(username=admin_username).first()
-    if not admin:
-        default_town = Town.query.first()
-        admin = User(username=admin_username, is_admin=True)
-        admin.email = f"{admin_username}@ournews.local"
-        admin.town_id = default_town.id if default_town else None
-        admin.bio = "Platform administrator"
-        admin.set_password(admin_password)
-        db.session.add(admin)
-        db.session.commit()
+    if admin:
+        return
 
+    default_town = Town.query.first()
+    admin = User(username=admin_username, is_admin=True)
+    admin.email = f"{admin_username}@ournews.local"
+    admin.town_id = default_town.id if default_town else None
+    admin.bio = "Platform administrator"
+    admin.set_password(admin_password)
+    db.session.add(admin)
+    db.session.commit()
+
+
+@app.cli.command("init-db")
+def init_db_command():
+    db.create_all()
     seed_platform_if_empty()
+    ensure_admin_user()
     print("Database initialized. Admin user is ready.")
 
 
@@ -292,6 +296,7 @@ def ensure_tables():
     db.create_all()
     os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
     seed_platform_if_empty()
+    ensure_admin_user()
 
 
 @app.context_processor

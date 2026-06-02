@@ -40,13 +40,13 @@ For PostgreSQL URL, this app supports SQLAlchemy format through `DATABASE_URL`.
 
 ## 4. Initialize database
 
-After first deploy, run this once in Render Shell:
+This app now auto-bootstraps database tables, starter content, and admin user on first run using your environment variables.
+
+If Shell is available, you can still run this manually:
 
 ```bash
 flask --app app init-db
 ```
-
-This creates tables, seeds starter content, and creates admin user.
 
 ## 5. Add your custom domain in Render
 
