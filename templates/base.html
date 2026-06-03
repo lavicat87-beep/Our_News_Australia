@@ -16,7 +16,7 @@
 
   <header class="site-header">
     <div class="container masthead-row">
-      <a class="brand" href="{{ url_for('home') }}">Our News Australia- Community News for Every Town</a>
+      <a class="brand" href="{{ url_for('home') }}">Our News Australia</a>
     </div>
     <div class="container nav-row">
       <nav class="primary-nav">
@@ -38,15 +38,16 @@
         {% endif %}
       </nav>
     </div>
-    <div class="container search-row">
-      <form action="{{ url_for('archive') }}" method="get" class="search-form">
-        <input type="text" name="q" placeholder="Search local stories, events, towns...">
-        <button type="submit" class="btn">Search</button>
-      </form>
-    </div>
   </header>
 
   <main class="container page">
+    <section class="prominent-search-wrap">
+      <form action="{{ url_for('archive') }}" method="get" class="prominent-search-form" role="search" aria-label="Site search">
+        <input type="text" name="q" placeholder="Search by town, suburb, postcode or story..." aria-label="Search by town, suburb, postcode or story">
+        <button type="submit" class="btn">Search</button>
+      </form>
+    </section>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <div class="flash-wrap">

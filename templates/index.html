@@ -4,9 +4,26 @@
 {% block content %}
 <section class="hero hero-home">
   <p class="kicker">Digital Town Square</p>
-  <h1>Our News Australia- Community News for Every Town</h1>
+  <h1>Community News for Every Town</h1>
   <p class="lead">Explore local updates by State, Region, and Town to find stories that matter where you live.</p>
   <a class="btn" href="{{ url_for('australia') }}">Browse By Location</a>
+</section>
+
+<section class="paper">
+  <h2>Why It Exists</h2>
+  <p><strong>Local news without Facebook. Every town can have its own community news page.</strong></p>
+</section>
+
+<section class="paper">
+  <h2>Community Trust Indicators</h2>
+  <div class="trust-grid">
+    <p class="trust-item">Community submitted stories</p>
+    <p class="trust-item">Moderated content</p>
+    <p class="trust-item">Local events</p>
+    <p class="trust-item">Lost &amp; found</p>
+    <p class="trust-item">School news</p>
+    <p class="trust-item">Sporting results</p>
+  </div>
 </section>
 
 <section class="paper">
@@ -37,6 +54,18 @@
   </ul>
 </section>
 
+<section class="paper">
+  <h2>Business Viability</h2>
+  <p>The idea is workable if we focus first on small regional towns with limited local news coverage.</p>
+  <ul>
+    <li>Blue Mountains</li>
+    <li>Lithgow</li>
+    <li>Oberon</li>
+    <li>Bathurst</li>
+  </ul>
+  <p>Goal: publish a few dozen local stories and onboard early contributors before expanding to more regions.</p>
+</section>
+
 {% if featured_town and featured_weather %}
 <section class="weather-widget" data-weather-widget data-lat="{{ featured_weather.lat }}" data-lon="{{ featured_weather.lon }}" data-town="{{ featured_town.name }}">
   <div>
@@ -56,32 +85,84 @@
 </section>
 
 <section class="section-head">
-  <h2>Featured Stories</h2>
+  <h2>Latest Australia News</h2>
   <a href="{{ url_for('news') }}">View all</a>
 </section>
 
 <section class="card-grid">
-  {% for post in posts %}
+  {% for post in latest_au_news %}
   <article class="card">
-    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }}</p>
+    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }}</p>
     <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
     <p>{{ post.summary }}</p>
   </article>
+  {% else %}
+  <article class="card"><p>No stories yet.</p></article>
   {% endfor %}
 </section>
 
 <section class="section-head">
-  <h2>Active Town Pages</h2>
+  <h2>NSW</h2>
+</section>
+
+<section class="card-grid">
+  {% for post in nsw_news %}
+  <article class="card">
+    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }}</p>
+    <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
+    <p>{{ post.summary }}</p>
+  </article>
+  {% else %}
+  <article class="card"><p>No NSW stories yet.</p></article>
+  {% endfor %}
+</section>
+
+<section class="section-head">
+  <h2>Victoria</h2>
+</section>
+
+<section class="card-grid">
+  {% for post in victoria_news %}
+  <article class="card">
+    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }}</p>
+    <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
+    <p>{{ post.summary }}</p>
+  </article>
+  {% else %}
+  <article class="card"><p>No Victoria stories yet.</p></article>
+  {% endfor %}
+</section>
+
+<section class="section-head">
+  <h2>Queensland</h2>
+</section>
+
+<section class="card-grid">
+  {% for post in queensland_news %}
+  <article class="card">
+    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }}</p>
+    <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
+    <p>{{ post.summary }}</p>
+  </article>
+  {% else %}
+  <article class="card"><p>No Queensland stories yet.</p></article>
+  {% endfor %}
+</section>
+
+<section class="section-head">
+  <h2>Recently Added Towns</h2>
   <a href="{{ url_for('expansion_apply') }}">Request your town</a>
 </section>
 
 <section class="card-grid">
-  {% for town in towns %}
+  {% for town in recently_added_towns %}
   <article class="card">
     <p class="stamp">{{ town.region.state.name }} -> {{ town.region.name }}</p>
     <h3><a href="{{ url_for('town_page', slug=town.slug) }}">{{ town.name }}</a></h3>
     <p>{{ town.description }}</p>
   </article>
+  {% else %}
+  <article class="card"><p>No towns yet.</p></article>
   {% endfor %}
 </section>
 {% endblock %}

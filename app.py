@@ -151,6 +151,7 @@ def seed_platform_if_empty() -> None:
 
         blue_mountains = Region(name="Blue Mountains", slug="blue-mountains", state=nsw)
         riverina = Region(name="Riverina", slug="riverina", state=nsw)
+        central_west = Region(name="Central West", slug="central-west", state=nsw)
         yarra_ranges = Region(name="Yarra Ranges", slug="yarra-ranges", state=vic)
 
         katoomba = Town(
@@ -177,8 +178,40 @@ def seed_platform_if_empty() -> None:
             region=yarra_ranges,
             description="Stories and events from the Healesville community.",
         )
+        lithgow = Town(
+            name="Lithgow",
+            slug="lithgow",
+            region=central_west,
+            description="Regional community news and updates for Lithgow.",
+        )
+        oberon = Town(
+            name="Oberon",
+            slug="oberon",
+            region=central_west,
+            description="Local stories and announcements from Oberon.",
+        )
+        bathurst = Town(
+            name="Bathurst",
+            slug="bathurst",
+            region=central_west,
+            description="Community headlines, events, and local reports from Bathurst.",
+        )
 
-        db.session.add_all([nsw, vic, blue_mountains, riverina, yarra_ranges, katoomba, leura, wagga, healesville])
+        db.session.add_all([
+            nsw,
+            vic,
+            blue_mountains,
+            riverina,
+            central_west,
+            yarra_ranges,
+            katoomba,
+            leura,
+            wagga,
+            healesville,
+            lithgow,
+            oberon,
+            bathurst,
+        ])
         db.session.commit()
 
     if db.session.query(func.count(Post.id)).scalar() > 0:
@@ -187,6 +220,9 @@ def seed_platform_if_empty() -> None:
     katoomba = Town.query.filter_by(slug="katoomba").first()
     leura = Town.query.filter_by(slug="leura").first()
     healesville = Town.query.filter_by(slug="healesville").first()
+    lithgow = Town.query.filter_by(slug="lithgow").first()
+    oberon = Town.query.filter_by(slug="oberon").first()
+    bathurst = Town.query.filter_by(slug="bathurst").first()
 
     if not katoomba or not leura or not healesville:
         return
@@ -229,6 +265,51 @@ def seed_platform_if_empty() -> None:
             town_id=healesville.id,
         ),
     ]
+    if lithgow:
+        starter_posts.append(
+            Post(
+                title="Lithgow Main Street Traders Launch Winter Drive",
+                slug="lithgow-winter-traders-drive",
+                summary="Local businesses are running joint promotions to attract weekend visitors.",
+                content=(
+                    "Shop owners and community groups are collaborating on a winter campaign with "
+                    "family activities and extended trading hours through June and July."
+                ),
+                category="Business Announcement",
+                status="published",
+                town_id=lithgow.id,
+            )
+        )
+    if oberon:
+        starter_posts.append(
+            Post(
+                title="Oberon School Fair Sets Record Attendance",
+                slug="oberon-school-fair-attendance",
+                summary="Parents and local volunteers helped run stalls, music, and sports games.",
+                content=(
+                    "Organizers say this year drew the biggest turnout yet, with fundraising "
+                    "supporting new learning resources and student activities."
+                ),
+                category="School Activity",
+                status="published",
+                town_id=oberon.id,
+            )
+        )
+    if bathurst:
+        starter_posts.append(
+            Post(
+                title="Bathurst Juniors Claim Regional Netball Title",
+                slug="bathurst-juniors-netball-title",
+                summary="A strong final quarter sealed the win in front of home supporters.",
+                content=(
+                    "Coaches praised team discipline and community support as the club celebrated "
+                    "its first regional title in three seasons."
+                ),
+                category="Sports Result",
+                status="published",
+                town_id=bathurst.id,
+            )
+        )
     db.session.add_all(starter_posts)
 
     starter_events = [
@@ -318,14 +399,35 @@ def inject_globals():
 
 @app.route("/")
 def home():
-    posts = Post.query.filter_by(status="published").order_by(Post.created_at.desc()).limit(4).all()
+    latest_au_news = Post.query.filter_by(status="published").order_by(Post.created_at.desc()).limit(6).all()
+
+    def state_news(state_name: str, limit: int = 4):
+        return (
+            Post.query.join(Town)
+            .join(Region)
+            .join(State)
+            .filter(Post.status == "published", State.name == state_name)
+            .order_by(Post.created_at.desc())
+            .limit(limit)
+            .all()
+        )
+
+    nsw_news = state_news("New South Wales")
+    victoria_news = state_news("Victoria")
+    queensland_news = state_news("Queensland")
+
     towns = Town.query.order_by(Town.name.asc()).limit(8).all()
+    recently_added_towns = Town.query.order_by(Town.id.desc()).limit(6).all()
     featured_town = towns[0] if towns else None
     featured_weather = WEATHER_COORDS.get(featured_town.slug) if featured_town else None
     return render_template(
         "index.html",
-        posts=posts,
+        latest_au_news=latest_au_news,
+        nsw_news=nsw_news,
+        victoria_news=victoria_news,
+        queensland_news=queensland_news,
         towns=towns,
+        recently_added_towns=recently_added_towns,
         featured_town=featured_town,
         featured_weather=featured_weather,
     )
