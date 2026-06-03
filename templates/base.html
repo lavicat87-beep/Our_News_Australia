@@ -9,8 +9,8 @@
 <body>
   <div class="topline">
     <div class="container topline-row">
-      <p>OurNews Australia Edition</p>
-      <p id="live-date">Loading date...</p>
+      <p>Independent Local Reporting | Australia Edition</p>
+      <p class="topline-meta"><span id="live-date">Loading date...</span> <span id="live-temp">| --</span></p>
     </div>
   </div>
 
@@ -18,10 +18,15 @@
     <div class="container masthead-row">
       <a class="brand" href="{{ url_for('home') }}">Our News Australia</a>
     </div>
+    <div class="container trust-strip">
+      <p>Verified community updates</p>
+      <p>Moderated local submissions</p>
+      <p>State | Region | Town coverage</p>
+    </div>
     <div class="container nav-row">
       <nav class="primary-nav">
         <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('news') }}">News</a>
+        <a href="{{ url_for('news') }}">Latest</a>
         <a href="{{ url_for('archive') }}">Archive</a>
         <a href="{{ url_for('expansion_apply') }}">Add Your Town</a>
       </nav>
@@ -58,6 +63,12 @@
       {% endif %}
     {% endwith %}
 
+    <section class="utility-strip" aria-label="Editorial utility links">
+      <a href="{{ url_for('contact') }}">Contact Editorial Team</a>
+      <a href="{{ url_for('help_centre') }}">Publishing Help</a>
+      <a href="{{ url_for('privacy_policy') }}">Privacy &amp; Standards</a>
+    </section>
+
     {% block content %}{% endblock %}
   </main>
 
@@ -76,7 +87,7 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>OurNews, community-first digital publication.</p>
+      <p>OurNews is a community-first digital publication focused on practical local information.</p>
       <p class="footer-links">
         <a href="{{ url_for('contact') }}">Contact us</a>
         <a href="{{ url_for('register') }}">Subscribe</a>

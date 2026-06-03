@@ -5,13 +5,13 @@
 <section class="hero hero-home">
   <p class="kicker">Digital Town Square</p>
   <h1>Community News for Every Town</h1>
-  <p class="lead">Explore local updates by State, Region, and Town to find stories that matter where you live.</p>
+  <p class="lead">Reliable local updates by State, Region, and Town so residents can quickly find what matters where they live.</p>
   <a class="btn" href="{{ url_for('australia') }}">Browse By Location</a>
 </section>
 
 <section class="paper">
   <h2>Why It Exists</h2>
-  <p><strong>Local news without Facebook. Every town can have its own community news page.</strong></p>
+  <p><strong>Local news without social media noise. Every town can have its own trusted community news page.</strong></p>
 </section>
 
 <section class="paper">
@@ -63,7 +63,6 @@
     <li>Oberon</li>
     <li>Bathurst</li>
   </ul>
-  <p>Goal: publish a few dozen local stories and onboard early contributors before expanding to more regions.</p>
 </section>
 
 {% if featured_town and featured_weather %}
@@ -92,9 +91,10 @@
 <section class="card-grid">
   {% for post in latest_au_news %}
   <article class="card">
-    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }}</p>
+    <p class="stamp">{{ post.category }} | {{ post.town.name }}</p>
     <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
-    <p>{{ post.summary }}</p>
+    <p class="card-summary">{{ post.summary }}</p>
+    <p class="stamp">Published {{ post.created_at.strftime('%b %d, %Y') }}</p>
   </article>
   {% else %}
   <article class="card"><p>No stories yet.</p></article>
@@ -108,9 +108,10 @@
 <section class="card-grid">
   {% for post in nsw_news %}
   <article class="card">
-    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }}</p>
+    <p class="stamp">{{ post.category }} | {{ post.town.name }}</p>
     <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
-    <p>{{ post.summary }}</p>
+    <p class="card-summary">{{ post.summary }}</p>
+    <p class="stamp">Published {{ post.created_at.strftime('%b %d, %Y') }}</p>
   </article>
   {% else %}
   <article class="card"><p>No NSW stories yet.</p></article>
@@ -124,9 +125,10 @@
 <section class="card-grid">
   {% for post in victoria_news %}
   <article class="card">
-    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }}</p>
+    <p class="stamp">{{ post.category }} | {{ post.town.name }}</p>
     <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
-    <p>{{ post.summary }}</p>
+    <p class="card-summary">{{ post.summary }}</p>
+    <p class="stamp">Published {{ post.created_at.strftime('%b %d, %Y') }}</p>
   </article>
   {% else %}
   <article class="card"><p>No Victoria stories yet.</p></article>
@@ -140,9 +142,10 @@
 <section class="card-grid">
   {% for post in queensland_news %}
   <article class="card">
-    <p class="stamp">{{ post.created_at.strftime('%b %d, %Y') }} | {{ post.town.name }}</p>
+    <p class="stamp">{{ post.category }} | {{ post.town.name }}</p>
     <h3><a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a></h3>
-    <p>{{ post.summary }}</p>
+    <p class="card-summary">{{ post.summary }}</p>
+    <p class="stamp">Published {{ post.created_at.strftime('%b %d, %Y') }}</p>
   </article>
   {% else %}
   <article class="card"><p>No Queensland stories yet.</p></article>

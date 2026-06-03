@@ -13,6 +13,28 @@ function updateLiveDate() {
   dateNode.textContent = formatter.format(new Date());
 }
 
+async function hydrateToplineTemperature() {
+  const tempNode = document.getElementById("live-temp");
+  if (!tempNode) {
+    return;
+  }
+
+  try {
+    // Katoomba coordinates for a consistent Australia-wide headline temperature.
+    const url = "https://api.open-meteo.com/v1/forecast?latitude=-33.715&longitude=150.311&current=temperature_2m&timezone=auto";
+    const response = await fetch(url);
+    const payload = await response.json();
+    const current = payload.current;
+    if (!current) {
+      throw new Error("No weather data");
+    }
+
+    tempNode.textContent = `| ${Math.round(current.temperature_2m)}°C Katoomba`;
+  } catch (error) {
+    tempNode.textContent = "| Weather unavailable";
+  }
+}
+
 function weatherLabel(code) {
   if (code === 0) return "Clear";
   if ([1, 2, 3].includes(code)) return "Partly cloudy";
@@ -70,4 +92,5 @@ async function hydrateWeatherWidgets() {
 }
 
 updateLiveDate();
+hydrateToplineTemperature();
 hydrateWeatherWidgets();

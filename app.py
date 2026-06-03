@@ -366,11 +366,107 @@ def ensure_admin_user() -> None:
     db.session.commit()
 
 
+def ensure_featured_articles() -> None:
+    qld = State.query.filter_by(slug="queensland").first()
+    if not qld:
+        qld = State(name="Queensland", slug="queensland")
+        db.session.add(qld)
+        db.session.commit()
+
+    southeast_qld = Region.query.filter_by(slug="south-east-queensland").first()
+    if not southeast_qld:
+        southeast_qld = Region(name="South East Queensland", slug="south-east-queensland", state=qld)
+        db.session.add(southeast_qld)
+        db.session.commit()
+
+    brisbane = Town.query.filter_by(slug="brisbane").first()
+    if not brisbane:
+        brisbane = Town(
+            name="Brisbane",
+            slug="brisbane",
+            region=southeast_qld,
+            description="Queensland state stories, events and community updates from Brisbane.",
+        )
+        db.session.add(brisbane)
+        db.session.commit()
+
+    katoomba = Town.query.filter_by(slug="katoomba").first()
+    bathurst = Town.query.filter_by(slug="bathurst").first()
+
+    candidates = [
+        {
+            "slug": "winter-magic-katoomba-returns",
+            "town": katoomba,
+            "title": "Winter Magic Festival Returns to Katoomba",
+            "summary": "Blue Mountains locals and visitors are preparing for a full day of music, markets and street performance.",
+            "content": (
+                "Community groups confirmed that this year's Winter Magic will feature local artists, "
+                "family activities and a stronger focus on small business stalls across the town centre."
+            ),
+            "category": "Community Event",
+        },
+        {
+            "slug": "bathurst-winter-festival-program-announced",
+            "town": bathurst,
+            "title": "Bathurst Winter Festival Program Announced",
+            "summary": "The festival schedule includes ice-skating, live entertainment and regional food vendors.",
+            "content": (
+                "Organisers released a multi-week program designed to support local tourism and highlight "
+                "Bathurst businesses during the colder months."
+            ),
+            "category": "Community Event",
+        },
+        {
+            "slug": "bathurst-winter-festival-this-week",
+            "town": bathurst,
+            "title": "Bathurst Winter Festival Starts This Week",
+            "summary": "Bathurst's winter festival opens this week with ice skating, live music and family activities across the CBD.",
+            "content": (
+                "Local organisers say the event is expected to bring strong crowds into the city centre, "
+                "with evening entertainment, food stalls and community programming scheduled through the festival period."
+            ),
+            "category": "Community Event",
+        },
+        {
+            "slug": "queensland-maroons-fall-to-blues",
+            "town": brisbane,
+            "title": "Queensland Maroons Fall to Blues in Origin Clash",
+            "summary": "The Blues came away with the win, while Queensland fans back a strong response in the next match.",
+            "content": (
+                "NSW claimed the result in the latest State of Origin contest, with the Maroons now "
+                "turning attention to adjustments for the next game of the series."
+            ),
+            "category": "Sports Result",
+        },
+    ]
+
+    for item in candidates:
+        if not item["town"]:
+            continue
+        exists = Post.query.filter_by(slug=item["slug"]).first()
+        if exists:
+            continue
+        db.session.add(
+            Post(
+                title=item["title"],
+                slug=item["slug"],
+                summary=item["summary"],
+                content=item["content"],
+                category=item["category"],
+                status="published",
+                town_id=item["town"].id,
+            )
+        )
+
+    db.session.commit()
+
+
 @app.cli.command("init-db")
 def init_db_command():
     db.create_all()
     seed_platform_if_empty()
     ensure_admin_user()
+    ensure_featured_articles()
     print("Database initialized. Admin user is ready.")
 
 
@@ -380,6 +476,7 @@ def ensure_tables():
     os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
     seed_platform_if_empty()
     ensure_admin_user()
+    ensure_featured_articles()
 
 
 @app.context_processor
