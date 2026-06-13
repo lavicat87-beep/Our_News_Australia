@@ -395,6 +395,19 @@ def ensure_featured_articles() -> None:
 
     candidates = [
         {
+            "slug": "katoomba-data-centre-proposal-announced",
+            "town": katoomba,
+            "title": "Katoomba Data Centre Plan Sparks Community Backlash",
+            "summary": "Residents say a proposed Katoomba data centre could strain local roads and power, with calls for stronger oversight before any approval.",
+            "content": (
+                "Community members have criticised the proposal, warning that heavy vehicle movements, "
+                "energy demand and construction impacts could place pressure on nearby streets and services. "
+                "Council is expected to open formal consultation, with residents urging transparent modelling "
+                "and enforceable conditions before any final determination."
+            ),
+            "category": "Business Announcement",
+        },
+        {
             "slug": "winter-magic-katoomba-returns",
             "town": katoomba,
             "title": "Winter Magic Festival Returns to Katoomba",
@@ -445,6 +458,12 @@ def ensure_featured_articles() -> None:
             continue
         exists = Post.query.filter_by(slug=item["slug"]).first()
         if exists:
+            if item["slug"] == "katoomba-data-centre-proposal-announced":
+                exists.title = item["title"]
+                exists.summary = item["summary"]
+                exists.content = item["content"]
+                exists.category = item["category"]
+                exists.status = "published"
             continue
         db.session.add(
             Post(
